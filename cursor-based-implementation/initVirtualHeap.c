@@ -23,6 +23,7 @@ void deleteFirst(VirtualHeap* L, List* head);
 void deleteLast(VirtualHeap* L, List* head);
 void traversal(VirtualHeap B, int A);
 void checkAvailSpace(VirtualHeap A);
+void sort(VirtualHeap* L, List* head);
 
 int main(){
     VirtualHeap B;
@@ -35,11 +36,31 @@ int main(){
     insertFirst(&B, &head, 'f'); //3
     traversal(B, head);
     checkAvailSpace(B);
-    deleteLast(&B, &head);
+    sort(&B, &head);
     traversal(B, head);
     printf("\t(%d, %d)\n", head, B.avail);
     checkAvailSpace(B);
     return 0;
+}
+
+void sort(VirtualHeap* L, List* head){
+    if(*head != -1){
+        List B;
+        for(B = *head; B != -1; B = L->nodes[B].link){
+            List smallNdx = B;
+            List A;
+            for(A = L->nodes[B].link; A != 1; A = L->nodes[A].link){
+                if(L->nodes[A].data < L->nodes[smallNdx].data){
+                    List smallNdx = A; 
+                }
+            }
+            if(A != B){
+                char temp = L->nodes[B].data;
+                L->nodes[B].data = L->nodes[A].data;
+                L->nodes[A].data = temp;
+            }    
+        }
+    }
 }
 
 void deleteLast(VirtualHeap* L, List* head){
