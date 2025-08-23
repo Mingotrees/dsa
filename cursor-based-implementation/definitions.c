@@ -49,10 +49,9 @@ void deallocSpace(VirtualHeap* L, List index){
 }
 
 List allocSpace(VirtualHeap* L){
-    List temp = -1;
-    if(L->avail != -1 ){
-        temp = L->avail;
-        L->avail = L->nodes[L->avail].link;
+    List temp = L->avail;
+    if(temp != -1 ){
+        L->avail = L->nodes[temp].link;
     }
 
     return temp;
