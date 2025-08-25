@@ -13,17 +13,17 @@ int main(){
     List head;
     initList(&head);
     insertLast(&B, &head, 'u'); //0    //Linked List is in this order 3 -> 0 -> 1 -> 2 
-    insertLast(&B, &head, 'c'); //1
-    insertLast(&B, &head, 'k'); //2
-    insertFirst(&B, &head, 'f'); //3
+    // insertLast(&B, &head, 'c'); //1
+    // insertLast(&B, &head, 'k'); //2
+    // insertFirst(&B, &head, 'f'); //3
     traversal(B, head);
     checkAvailSpace(B);
     sort(&B, &head);
-    insertSorted(&B, &head, 'j');
-    deleteElem(&B, &head, 'u');
-    traversal(B, head);
-    printf("\t(%d, %d)\n", head, B.avail);
-    checkAvailSpace(B);
+    // insertSorted(&B, &head, 'j');
+    // deleteElem(&B, &head, 'u');
+    // traversal(B, head);
+    // printf("\t(%d, %d)\n", head, B.avail);
+    // checkAvailSpace(B);
     return 0;
 }
 

@@ -81,7 +81,7 @@ void deleteFirst(VirtualHeap*  L, List* head){
 
 void traversal(VirtualHeap B, int A){ 
     for(;A != -1; A = B.nodes[A].link){
-        printf("%c", B.nodes[A].data);
+        printf("(%c, %d)", B.nodes[A].data, B.nodes[A].link);
     }
     printf("\n");
 }
@@ -112,9 +112,9 @@ void insertFirst(VirtualHeap* L, List* A, char elem){
 void insertLast(VirtualHeap* L, List *A, char elem){
     List spot = allocSpace(L);
     if(spot != - 1){
-        List B;
-        for(B = *A; L->nodes[B].link != -1; B = L->nodes[B].link){}
-        L->nodes[B].link = spot;
+        List* B;
+        for(B = A; *B != -1; B = &L->nodes[*B].link){}
+        L->nodes[*B].link = spot;
         L->nodes[spot].data = elem;
         L->nodes[spot].link = -1;
         insertSuccess();
@@ -148,18 +148,19 @@ void initVirutalHeap2(VirtualHeap* L){
 
 void sort(VirtualHeap* L, List* head){
     if(*head != -1){
-        List B;
-        for(B = *head; B != -1; B = L->nodes[B].link){
-            List smallNdx = B;
+        List* B;
+        for(B = head; *B != -1; B = &L->nodes[*B].link){
+            List smallNdx = *B;
             List A;
-            for(A = L->nodes[B].link; A != 1; A = L->nodes[A].link){
+            for(A = L->nodes[*B].link; A != -1; A = L->nodes[A].link){
+                // printf("%d", L->nodes[A].link);
                 if(L->nodes[A].data < L->nodes[smallNdx].data){
-                    List smallNdx = A; 
+                    smallNdx = A; 
                 }
             }
-            if(A != B){
-                char temp = L->nodes[B].data;
-                L->nodes[B].data = L->nodes[A].data;
+            if(smallNdx != *B){
+                char temp = L->nodes[*B].data;
+                L->nodes[*B].data = L->nodes[A].data;
                 L->nodes[A].data = temp;
             }    
         }
