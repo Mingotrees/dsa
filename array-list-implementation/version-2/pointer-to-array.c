@@ -40,6 +40,7 @@ void populate(ListPtr arr);
 studDetails retrieve(LIST arr, int id);
 void initList(ListPtr* arr);
 ListPtr initList2();
+void insertionSort(ListPtr arr);
 
 
 //HELPER FUNCTIONS
@@ -73,15 +74,28 @@ int main(){
     insert(a, students[1], 1);
     insert(a, students[1], 1);
     displayStuds(*a);
-    int location = locate(*a, 1001);
-    printf("%d\n", location + 1);
-    studDetails details = retrieve(*a, 1001);
-    displayStud(details);
+    insertionSort(a);
+    // int location = locate(*a, 1001);
+    // printf("%d\n", location + 1);
+    // studDetails details = retrieve(*a, 1001);
+    displayStuds(*a);
     // delete(a, 1003);
     // displayStuds(*a);
     // delete(a, 1002);
     // displayStuds(*a);
     free(a);
+}
+
+void insertionSort(ListPtr arr){
+    int ndx;
+    for(ndx = 1; ndx < arr->count; ndx++){
+        studDetails a = arr->elements[ndx];
+        int j;
+        for(j = ndx; j > 0 && arr->elements[j-1].ID > a.ID; j--){
+            arr->elements[j] = arr->elements[j-1];
+        }
+        arr->elements[j] = a;
+    }
 }
 
 void populate(ListPtr arr){
