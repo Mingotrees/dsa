@@ -71,7 +71,7 @@ int main(){
     populate(a);
     insert(a, students[0], 0);
     insert(a, students[1], 1);
-    insert(a, students[1], );
+    insert(a, students[1], 1);
     displayStuds(*a);
     int location = locate(*a, 1001);
     printf("%d\n", location + 1);
