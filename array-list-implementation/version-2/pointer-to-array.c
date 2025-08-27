@@ -5,7 +5,7 @@
 *
 * Programmer: Jhanell R. Mingo 
 * Created: 08/26/2025
-* Last Updated: 08/26/2025 @ 8:08PM
+* Last Updated: 08/27/2025 @ 5:58PM
 *
 */
 
@@ -51,6 +51,9 @@ void mallocFail(){
 void invalidPos(){
     printf("Invalid Position\n");
 }
+void listIsFull(){
+    printf("List is Full\n");
+}
 
 
 //MAIN DRIVER FUNCTION
@@ -66,8 +69,9 @@ int main(){
     ListPtr a = initList2();
     // initList(&a);
     populate(a);
-    // insert(a, students[0], 0);
-    // insert(a, students[1], 1);
+    insert(a, students[0], 0);
+    insert(a, students[1], 1);
+    insert(a, students[1], );
     displayStuds(*a);
     int location = locate(*a, 1001);
     printf("%d\n", location + 1);
@@ -142,6 +146,8 @@ void displayStuds(LIST arr){
 void insert(ListPtr arr, studDetails student, int pos){
     if(pos < 0 || pos > arr->count){
         invalidPos();
+    }else if(arr->count == MAX){
+        listIsFull();
     }else{
         int ndx;
         for(ndx = arr->count; ndx > pos; ndx--){
