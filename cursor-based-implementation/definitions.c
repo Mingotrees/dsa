@@ -18,9 +18,8 @@ void insertSorted(VirtualHeap* L, List* head, char elem){
     if(spot != -1){
         List* pat;
         for(pat = head; *pat != -1 && L->nodes[*pat].data < elem; pat = &L->nodes[*pat].link){}
-        List temp = *pat;
         L->nodes[spot].data = elem;
-        L->nodes[spot].link = temp;
+        L->nodes[spot].link = *pat;
         *pat = spot; 
         insertSuccess();
     }else{
