@@ -17,14 +17,14 @@ int main(){
     insertLast(&B, &head, 'k'); //2
     insertFirst(&B, &head, 'f'); //3
     traversal(B, head);
-    deleteLast(&B, &head);
-    deleteLast(&B, &head);
-    deleteLast(&B, &head);
-    deleteLast(&B, &head);
+    // deleteLast(&B, &head);
+    // deleteLast(&B, &head);
+    sort(&B, head);
+    // deleteLast(&B, &head);
+    // deleteLast(&B, &head);
     traversal(B, head);
     // traversal(B, head);
     // checkAvailSpace(B);
-    // sort(&B, &head);
     // insertSorted(&B, &head, 'j');
     // deleteElem(&B, &head, 'u');
     // traversal(B, head);

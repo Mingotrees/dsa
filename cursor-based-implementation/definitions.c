@@ -145,22 +145,22 @@ void initVirutalHeap2(VirtualHeap* L){
     }
 }
 
-void sort(VirtualHeap* L, List* head){
-    if(*head != -1){
-        List* B;
-        for(B = head; *B != -1; B = &L->nodes[*B].link){
-            List smallNdx = *B;
+void sort(VirtualHeap* L, List head){
+    if(head != -1){
+        List B;
+        for(B = head; B != -1; B = L->nodes[B].link){
+            List smallNdx = B;
             List A;
-            for(A = L->nodes[*B].link; A != -1; A = L->nodes[A].link){
+            for(A = L->nodes[B].link; A != -1; A = L->nodes[A].link){
                 // printf("%d", L->nodes[A].link);
                 if(L->nodes[A].data < L->nodes[smallNdx].data){
                     smallNdx = A; 
                 }
             }
-            if(smallNdx != *B){
-                char temp = L->nodes[*B].data;
-                L->nodes[*B].data = L->nodes[A].data;
-                L->nodes[A].data = temp;
+            if(smallNdx != B){
+                char temp = L->nodes[B].data;
+                L->nodes[B].data = L->nodes[smallNdx].data;
+                L->nodes[smallNdx].data = temp;
             }    
         }
     }

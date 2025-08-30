@@ -40,7 +40,7 @@ void deleteLast(VirtualHeap* L, List* head);
 void deleteElem(VirtualHeap* L, List* head, char elem);
 
 
-void sort(VirtualHeap* L, List* head);
+void sort(VirtualHeap* L, List head);
 
 /*
 * HELPER FUNCTIONS
