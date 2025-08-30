@@ -60,10 +60,10 @@ List allocSpace(VirtualHeap* L){
 
 void deleteLast(VirtualHeap* L, List* head){
     if(*head != -1){
-        List B;
-        for(B = *head; L->nodes[L->nodes[B].link].link != -1; B = L->nodes[B].link){}
-        List oldLastNode = L->nodes[B].link;
-        L->nodes[B].link = -1;
+        List *B;
+        for(B = head; L->nodes[*B].link != -1; B = &L->nodes[*B].link){}
+        List oldLastNode = *B;
+        *B = -1;
         deallocSpace(L, oldLastNode);
         deleteSuccess();
     }
@@ -81,7 +81,7 @@ void deleteFirst(VirtualHeap*  L, List* head){
 
 void traversal(VirtualHeap B, int A){ 
     for(;A != -1; A = B.nodes[A].link){
-        printf("(%c, %d)", B.nodes[A].data, B.nodes[A].link);
+        printf("(%c, %d)\n", B.nodes[A].data, B.nodes[A].link);
     }
     printf("\n");
 }
@@ -114,9 +114,9 @@ void insertLast(VirtualHeap* L, List *A, char elem){
     if(spot != - 1){
         List* B;
         for(B = A; *B != -1; B = &L->nodes[*B].link){}
-        L->nodes[*B].link = spot;
         L->nodes[spot].data = elem;
         L->nodes[spot].link = -1;
+        *B = spot;
         insertSuccess();
     }else{
         isFull();

@@ -1,10 +1,11 @@
 /*
-* This Program is made to simulate the version 3
-* of ARRAY implementation where a struct List has variable elemptr which is a ptr to
-* an dynamically allocated array. The structure includes a count and an arrSize
-*
+* This Program is made to simulate the version 4
+* of ARRAY implementation where a List is a pointer to a structure
+* containing a pointer to a dynamically allocated array, a count, and
+* an array size
+&
 * Programmer: Jhanell R. Mingo 
-* Created: 08/27/2025
+* Created: 08/28/2025
 * Last Updated: 08/28/2025 @ 10:35 PM
 *
 */
@@ -30,19 +31,20 @@ typedef struct{
     studDetails* elemptr; 
     int count;
     int arrSize;
-}LIST, *ListPtr;
+}List, *ListPtr;
 
 
 
 //MAIN FUNCTIONS
-LIST initList();
-void initList2(ListPtr a);
+// LIST initList();
+void initList2(ListPtr *a);
 void insert(ListPtr, studDetails, int);
+void displayStuds(List arr);
 void expandArr(ListPtr);
 void delete(ListPtr, int ID);
 
 
-void displayStuds(LIST arr);
+// void displayStuds(LIST arr);
 void mallocFail(){
     printf("Malloc Failed\n");
 }
@@ -65,19 +67,20 @@ int main(){
     };
 
 
-    LIST L;
+    ListPtr L;
     initList2(&L);
-    printf("%d %d %p", L.count, L.arrSize, L.elemptr);
-    insert(&L, students[0], 0);
-    insert(&L, students[1], 1);
-    insert(&L, students[0], 1);
-    displayStuds(L);
-    delete(&L, 1004);
-    displayStuds(L);
-    free(L.elemptr);
+    printf("%d %d %p\n", L->count, L->arrSize, L->elemptr);
+    insert(L, students[0], 0);
+    insert(L, students[1], 1);
+    insert(L, students[0], 1);
+    displayStuds(*L);
+    delete(L, 1004);
+    displayStuds(*L);
+    free(L->elemptr);
+    free(L);
 }
 
-void displayStuds(LIST arr){
+void displayStuds(List arr){
     printf("===== STUDENTS REMAINING IN LIST: %d ========\n", arr.count);
     for (int i = 0; i < arr.count; i++) {
         printf("ID: %d | Name: %s %c. %s | Course: %s | Year: %d\n",
@@ -91,20 +94,21 @@ void displayStuds(LIST arr){
     }
 }
 
-void initList2(ListPtr A){
-    A->count = 0;
-    A->elemptr = (studDetails*)malloc(sizeof(studDetails) * MAX);
-    A->arrSize = MAX;
+void initList2(ListPtr *A){
+    *A = (ListPtr)malloc(sizeof(List));
+    (*A)->elemptr = (studDetails*)malloc(sizeof(studDetails) * MAX);
+    (*A)->count = 0;
+    (*A)->arrSize = MAX;
 }
 
-LIST initList(){
-    LIST L = {.count = 0, .arrSize = MAX};
-    L.elemptr = (studDetails*)malloc(sizeof(studDetails)* MAX);
-    if(L.elemptr == NULL){
-        mallocFail();
-    }
-    return L;
-}
+// LIST initList(){
+//     LIST L = {.count = 0, .arrSize = MAX};
+//     L.elemptr = (studDetails*)malloc(sizeof(studDetails)* MAX);
+//     if(L.elemptr == NULL){
+//         mallocFail();
+//     }
+//     return L;
+// }
 
 void expandArr(ListPtr A){
     studDetails* newPtr = realloc(A->elemptr, sizeof(studDetails) * (A->arrSize*2));
