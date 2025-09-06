@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdbool.h>
-#define MAX 3
+#define MAX 4
 
 typedef struct{
     char elem[MAX];
@@ -11,7 +11,7 @@ typedef struct{
 void initialize(Queue* B);
 void enqueue(Queue* B, char elem);
 void dequeue(Queue* B);
-int front(Queue B);
+char front(Queue B);
 bool isEmpty(Queue B);
 bool isFull(Queue B);
 void printQueue(Queue* B);
@@ -20,9 +20,8 @@ int main(){
     Queue A;
     initialize(&A);
     enqueue(&A, 'u');
-    // for(int ndx = 2; ndx < 5; ndx++){
-    //     enqueue(&A, ndx);
-    // }
+    enqueue(&A, 's');
+    enqueue(&A, 'c');
     printQueue(&A);
 
     // for(int ndx = 0; ndx < 3; ndx++){
@@ -49,19 +48,19 @@ void enqueue(Queue* B, char elem){
 }
 
 void dequeue(Queue* B){
-    if(isEmpty(*B)){
+    if(!isEmpty(*B)){
         B->start = (B->start + 1) % MAX;
     }else{
         printf("List Empty\n");
     }
 }
 
-int front(Queue B){
-    return isEmpty(B) ? -1 : B.elem[B.start];
+char front(Queue B){
+    return isEmpty(B) ? '\0' : B.elem[B.start];
 }
 
 bool isEmpty(Queue B){
-    return (B.end + 1) % MAX == B.start ? true : false;
+    return ((B.end + 1) % MAX) == B.start ? true : false;
 }
 
 bool isFull(Queue B){

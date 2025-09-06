@@ -35,8 +35,7 @@ int main(){
 }
 
 void initialize(Queue* B){
-    B->beginning = NULL;
-    B->end = NULL;
+    B->beginning = B->end = NULL;
 }
 
 /*
