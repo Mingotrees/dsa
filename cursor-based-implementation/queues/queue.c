@@ -26,10 +26,25 @@ bool isFull(VHeap);
 bool isEmpty(Queue);
 void enqueue(Queue*, VHeap*, char);
 void dequeue(Queue*, VHeap*);
-
+void printQueue(Queue, VHeap);
 
 int main(){
-
+    VHeap A;
+    initVHeap(&A);
+    Queue B;
+    initQueue(&B);
+    enqueue(&B, &A, 'u');
+    enqueue(&B, &A, 's');
+    enqueue(&B, &A, 'c');
+    printQueue(B, A);
+    dequeue(&B, &A);
+    printQueue(B, A);
+    dequeue(&B, &A);
+    printQueue(B, A);
+    dequeue(&B, &A);
+    printQueue(B, A);
+    dequeue(&B, &A);
+    printQueue(B, A);
 }
 
 void initVHeap(VHeap *A){
@@ -40,7 +55,7 @@ void initVHeap(VHeap *A){
 
 }
 
- void initVQueue(Queue *A){
+ void initQueue(Queue *A){
     A->front = A->rear = -1;
 }
 
@@ -65,7 +80,11 @@ bool isFull(VHeap B){
 }
 
 bool isEmpty(Queue B){
-    return B.front === -1 ? true : false;
+    return B.front == -1 ? true : false;
+}
+
+char front(Queue B, VHeap A){
+    return !isEmpty(B) ? A.nodes[B.front].data : '\0';
 }
 
 void enqueue(Queue *B, VHeap *A, char elem){
@@ -86,10 +105,22 @@ void dequeue(Queue *B, VHeap *A){
     if(!isEmpty(*B)){
         int temp = B->front;
         B->front = A->nodes[temp].link;
-        deallocSpace(temp);
-        if(B->front = -1){
+        deallocSpace(A, temp);
+        if(isEmpty(*B)){
             B->rear = -1;
         }
+    }else{
+        printf("empty\n");
     }
+}
+
+void printQueue(Queue B, VHeap A){
+    if(!isEmpty(B)){
+        while(!isEmpty(B)){
+            printf("%c ", front(B, A));
+            dequeue(&B, &A);
+        }
+        printf("\n");
+    } 
 }
 
