@@ -1,12 +1,16 @@
 #include <stdio.h>
 #include <stdbool.h>
-#define MAX 3
+#include <string.h>
+#define MAX 7
+#define PALINDROME "racecar"
+
 
 typedef struct{
     char elem[MAX];
     int top;
 }Stack;
 
+bool isPalindrome(Stack A, char word[]);
 void push(Stack*, char);
 void pop(Stack*);
 bool isFull(Stack);
@@ -18,17 +22,19 @@ void display(Stack);
 int main(){
     Stack A;
     initialize(&A);
-    push(&A, 'c');
-    push(&A, 's');
-    push(&A, 'u');
-    display(A);
     push(&A, 'r');
-    printf("Deleting\n");
-    pop(&A);
-    pop(&A);
-    pop(&A);
+    push(&A, 'a');
+    push(&A, 'c');
+    push(&A, 'e');
+    push(&A, 'c');
+    push(&A, 'a');
+    push(&A, 'r');
     display(A);
-    pop(&A);
+    if(isPalindrome(A, PALINDROME)){
+        printf("Its a palindrome");
+    }else{
+        printf("nope");
+    }
 
 }
 
@@ -72,3 +78,13 @@ void display(Stack A){
 }
 
 
+bool isPalindrome(Stack A, char word[]){
+    Stack temp;
+    initialize(&temp);
+
+    for(;A.top < MAX; A.top++){
+        push(&temp, A.elem[A.top]);
+    }
+
+    return (strcmp(A.elem, word) == 0) ? true : false;
+}
