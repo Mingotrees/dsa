@@ -7,7 +7,7 @@
 *
 * Programmer: Jhanell R. Mingo 
 * Created: 09/14/2025
-* Last Updated: 09/14/2025 @ 8:09PM
+* Last Updated: 09/14/2025 @ 10:26PM
 *
 */
 #include <stdio.h>
@@ -16,7 +16,7 @@
 
 
 typedef struct{
-    char *elemptr;
+    char *elemptr; 
     int top;
     int max;
 }Stack;
