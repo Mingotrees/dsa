@@ -56,3 +56,7 @@ dkms.conf
 
 
 .vscode
+
+heizel.c
+calculator.c 
+rickHelpMe.c
