@@ -1,19 +1,3 @@
-<<<<<<< HEAD
-#include <stdio.h>
-#include <stdbool.h>
-#define MAX 3
-
-typedef struct{
-    char elem[MAX];
-    int top;
-}Stack;
-
-void push(Stack*, char);
-void pop(Stack*);
-bool isFull(Stack);
-bool isEmpty(Stack);
-void initialize(Stack*);
-=======
 /*
 * This Program simulates the array implementation for stack
 * using version 3 where struct stack will have a dynamically
@@ -49,76 +33,15 @@ Boolean isEmpty(Stack);
 Boolean isFull(Stack);
 char peek(Stack);
 void sort(Stack*);
->>>>>>> 9cb76d4a2fa7ad7a011004ffb22f02e9815e1182
 void display(Stack);
 
 
 int main(){
     Stack A;
-<<<<<<< HEAD
-    initialize(&A);
-    push(&A, 'c');
-    push(&A, 's');
-    push(&A, 'u');
-    display(A);
-    push(&A, 'r');
-    printf("Deleting\n");
-    pop(&A);
-    pop(&A);
-    pop(&A);
-    display(A);
-    pop(&A);
-
-}
-
-void push(Stack* A, char B){
-    if(!isFull(*A)){
-        A->elem[--A->top] = B;
-    }else{
-        printf("List is full\n");
-    }
-}
-
-void pop(Stack* A){
-    if(!isEmpty(*A)){
-        A->top++;
-    }else{
-        printf("List is empty\n");
-    }
-}
-
-bool isFull(Stack A){
-    return A.top == 0 ? true : false; 
-}
-
-bool isEmpty(Stack A){
-    return A.top == MAX ? true : false;
-}
-
-void initialize(Stack* A){
-    A->top = MAX;
-}
-
-void display(Stack A){
-    if(!isEmpty(A)){
-        for(;A.top < MAX; A.top++){
-            printf("%c\n", A.elem[A.top]);
-        }
-    }else{
-        printf("List is Empty\n");
-    }
-    
-}
-
-
-=======
     initialize(&A, INITIAL_SIZE);
-    push(&A, 'z');
-    push(&A, 'a');
-    push(&A, 'b');
-    push(&A, 'd');
-    push(&A, 'u');
-    push(&A, 'c');
+    push(&A, '1');
+    push(&A, '2');
+    push(&A, '3');
 
     display(A);
 
@@ -130,8 +53,9 @@ void display(Stack A){
 }
 
 void display(Stack A){
-    for(;!isEmpty(A); pop(&A)){
-        printf("%c\n", peek(A));
+    int ndx = A.top;
+    for(;ndx < A.max; ndx++){
+        printf("%c\n", A.elemptr[ndx]);
     }
 }
 
@@ -149,29 +73,25 @@ Boolean isFull(Stack B){
     return B.top == 0 ? TRUE : FALSE;
 }
 
-void expandStack(Stack *B){
-    //problem is you cannot exactly move the way you normally move becauase it was intialized in reverse
-    Stack temp;
-    initialize(&temp, B->max);
-    for(;!isEmpty(*B); pop(B)){
-        push(&temp, B->elemptr[B->top]);
-    }
+void expandStack(Stack *B) {
+    int oldMax = B->max;
+    int newMax = oldMax * 2;
+    int count = oldMax - B->top; // number of elements in stack
 
-    char *newPtr = (char*)realloc(B->elemptr, sizeof(char)*(B->max*2));
-    if(newPtr == NULL){
-        printf("Malloc Failed");
+    char *newPtr = realloc(B->elemptr, sizeof(char) * newMax);
+    if (newPtr == NULL) {
+        printf("Realloc failed\n");
         return;
     }
 
-    B->elemptr = newPtr;
-    B->max *= 2;
-    B->top = B->max;
-
-    for(;!isEmpty(temp); pop(&temp)){
-        push(B, temp.elemptr[temp.top]);
+    // shift existing elements to end of new array
+    for (int i = 0; i < count; i++) {
+        newPtr[newMax - 1 - i] = newPtr[oldMax - 1 - i];
     }
 
-    free(temp.elemptr);
+    B->elemptr = newPtr;
+    B->top = newMax - count;
+    B->max = newMax;
 }
 
 
@@ -190,35 +110,33 @@ void pop(Stack* B){
     }
 }
 
-char peek(Stack B){
-    return !isEmpty(B) ? B.elemptr[B.top] : 0;
+char peek(Stack B) {
+    return (B.top < B.max) ? B.elemptr[B.top] : 0;
 }
 
-void sort(Stack* A){
+void sort(Stack* A) {
     Stack temp;
     initialize(&temp, A->max);
 
-    //initially populate the temp stack so a comparison is better
-    push(&temp, A->elemptr[A->top]);
+    // populate temp with first element
+    push(&temp, peek(*A));
     pop(A);
 
-    while(!isEmpty(*A)){
+    while (!isEmpty(*A)) {
         char carry = peek(*A);
-        char tempTop = peek(temp);
         pop(A);
-        while(!isEmpty(temp) && tempTop > carry){
-            push(A, tempTop);
+
+        while (!isEmpty(temp) && peek(temp) > carry) {
+            push(A, peek(temp));
             pop(&temp);
         }
         push(&temp, carry);
     }
 
-    while(!isEmpty(temp)){
+    while (!isEmpty(temp)) {
         push(A, peek(temp));
-        pop(&temp);        
+        pop(&temp);
     }
 
     free(temp.elemptr);
 }
-
->>>>>>> 9cb76d4a2fa7ad7a011004ffb22f02e9815e1182
