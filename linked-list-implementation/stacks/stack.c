@@ -16,7 +16,6 @@ void giveUp(PandorasStack*);
 char* reveal(PandorasStack S);
 
 
-
 int main(){
 
     return 0;

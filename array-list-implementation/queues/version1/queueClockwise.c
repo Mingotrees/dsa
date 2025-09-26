@@ -78,3 +78,5 @@ void printQueue(Queue* B){
         }while(front(*B) != temp);
     }
 }
+
+void sortQueue(Qu)

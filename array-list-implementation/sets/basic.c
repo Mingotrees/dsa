@@ -35,7 +35,13 @@ void init(Set* A){
 }
 
 void delete(Set* A, int x){
-    
+    //order doesnt matter
+    int ndx;
+    for(ndx = 0; ndx < A->count && A->elems[ndx] != x; ndx++){}
+    if(ndx < A->count){
+        A->count--;
+        A->elems[ndx] = A->elems[A->count]; 
+    }
 }
 
 Set Union(Set A, Set B){

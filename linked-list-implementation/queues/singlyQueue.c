@@ -8,6 +8,7 @@ typedef struct node{
 }*LIST;
 
 typedef struct{
+    int counter;
     LIST beginning;
     LIST end;
 }Queue;
@@ -19,6 +20,7 @@ int front(Queue B);
 bool isEmpty(Queue B);
 bool isFull(Queue B);
 void printQueue(Queue* B);
+void sort(Queue*);
 
 int main(){
     Queue A;
@@ -80,6 +82,8 @@ bool isFull(Queue B){
     return false;
 }
 
+void enqueueSorted()
+
 void printQueue(Queue* B){
     if(!isEmpty(*B)){
         // version 1
@@ -98,16 +102,16 @@ void printQueue(Queue* B){
         
         //version 2
 
-        // int temp = front(*B);
+        int temp = front(*B);
         // problem of this implementation is what if naay duplicate
-        // do{
-        //     int hold = front(*B);
-        //     printf("%d\n", hold);
-        //     dequeue(B);
-        //     enqueue(B, hold);
-        // }while(front(*B) != temp);
+        do{
+            int hold = front(*B);
+            printf("%d\n", hold);
+            dequeue(B);
+            enqueue(B, hold);
+        }while(front(*B) != temp);
 
-        // printf("\n");
+        printf("\n");
 
         //version 
         //try new version of enqueueing and dequeueing(?)

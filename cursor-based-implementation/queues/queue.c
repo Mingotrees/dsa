@@ -114,6 +114,11 @@ void dequeue(Queue *B, VHeap *A){
     }
 }
 
+void sort(Queue* B, VHeap* A){
+    
+}
+
+
 void printQueue(Queue B, VHeap A){
     if(!isEmpty(B)){
         while(!isEmpty(B)){

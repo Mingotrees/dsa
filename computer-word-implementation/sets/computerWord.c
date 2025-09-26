@@ -2,38 +2,59 @@
 #include <stdbool.h>
 #define MAX 8
 
-
 typedef unsigned int SET;
 
 void initialize(SET*);
-void display(int);
+void display(SET);
 void insert(int a, SET* A);
 void delete(SET* A, int x);
+SET Union(SET A, SET B);
+SET Intersection(SET A, SET B);
+SET Difference(SET A, SET B);
 
 int main(){
     SET a;
+    SET b;
+    initialize(&b);
     initialize(&a);
     // display(a);
     for(int ndx = 0; ndx <= 7; ndx++){
         insert(ndx, &a);
+        insert(7+ndx, &b);
     }
+    insert(31, &a);
+    printf("SET A:\n");
     display(a);
+    printf("SET B:\n");
+    display(b);
+
+    printf("Union:\n");
+    SET c = Union(a, b);
+    display(c);
+
+    printf("Interesction:\n");
+    c = Intersection(a, b);
+    display(c);
+
+    printf("Difference:\n");
+    c = Difference(a, b);
+    display(c);
     // delete(&a, 6);
     // delete(&a, 7);
-    display(a);
 }
 
-void display(int a)
+void display(SET a)
 {
     unsigned int x;
-    for(x = 1 << sizeof(int)* MAX -1; x!=0; x >>= 1){
+    for(x = 1 << (sizeof(int)* MAX - 1); x != 0; x >>= 1){
         printf("%d ", (x&a) == 0 ? 0 : 1);
         
     }
 
     printf("\nMEMBERS OF THE SET: { ");
     int count = 0;
-    for(int ndx = 0; ndx < MAX; ndx++){
+    int len = sizeof(int)*MAX - 1;
+    for(int ndx = 0; ndx < len; ndx++){
         if((a >> ndx) & 1 == 1){
             printf("%d ", ndx);
         }
@@ -47,8 +68,9 @@ void initialize(SET* a){
 }
 
 void insert(int a, SET* A){
-    unsigned int mask = 1 << a;
-    *A  = *A | mask;
+    if(a < sizeof(int)*MAX){
+        *A |= (1 << a);
+    }
 }
 
 void delete(SET* A, int x){
@@ -70,4 +92,16 @@ void delete(SET* A, int x){
     }else{
         printf("Bit position out of bounds");
     }
+}
+
+SET Union(SET A, SET B){
+    return A|B;
+}
+
+SET Intersection(SET A, SET B){
+    return A&B;
+}
+
+SET Difference(SET A, SET B){
+    return A&~B;
 }

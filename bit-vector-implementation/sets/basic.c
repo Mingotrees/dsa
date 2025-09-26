@@ -40,7 +40,7 @@ int main(){
     free(C);
 
     printf("Difference:\n");
-    C = Difference(E, D);
+    C = Difference(D, E);
     displaySet(*C);
     free(C);
 }
@@ -113,7 +113,7 @@ SET* Difference(SET A, SET B){ // A - B
     SET* C = (SET*)malloc(sizeof(SET));
     int ndx;
     for(ndx = 0; ndx < MAX; ndx++){
-        (*C)[ndx] = (A[ndx] != B[ndx]) ? A[ndx] : 0;
+        (*C)[ndx] = A[ndx] && !B[ndx];
     }
 
     return C;
