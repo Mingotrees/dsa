@@ -113,7 +113,7 @@ SET IntersectionSorted(SET A, SET B){
     int lever = 0;
     for(ptr = &C; A != NULL; A = A->next){
         for(bPtr = B; bPtr != NULL && lever != 1; bPtr = bPtr->next){
-            if(A->data == B->data){
+            if(A->data = B->data){
                 *ptr = (SET)malloc(sizeof(struct node));
                 (*ptr)->data = A->data;
                 ptr = &(*ptr)->next;
@@ -128,27 +128,18 @@ SET IntersectionSorted(SET A, SET B){
 //inefficient as fuck
 SET DifferenceSorted(SET A, SET B){
     SET C = NULL, bPtr;
-    SET* cPtr = &C;
-    while(A != NULL){ //populate c with all elements of A
-        *cPtr = (SET)malloc(sizeof(struct node));
-        (*cPtr)->data = A->data;
-        A = A->next;
-        cPtr = &(*cPtr)->next;
+    SET* cPtr;
+    for(cPtr = &C; A != NULL; A = A->next){
+        for(bPtr = B; bPtr != NULL && bPtr->data != A->data; bPtr = bPtr->next){}
+        if(bPtr == NULL){
+            *cPtr = (SET)malloc(sizeof(struct node));
+            if(*cPtr != NULL){
+                (*cPtr)->data = A->data;
+                cPtr = &(*cPtr)->next;
+            }
+        }
     }
     *cPtr = NULL;
-    
-    for(; B != NULL; B = B->next){ //delete elements of that are in B
-        cPtr = &C;
-        while(*cPtr != NULL && B->data != (*cPtr)->data){
-            cPtr = &(*cPtr)->next;
-        }
-        if(*cPtr != NULL){
-            SET temp = *cPtr;
-            *cPtr = (*cPtr)->next;
-            free(temp);
-        }
-    }
-
     return C;
 }
 
