@@ -1,5 +1,5 @@
 #include <stdio.h>
-#define MAX 20
+#define MAX 100
 
 typedef struct{
     int data;
@@ -34,9 +34,9 @@ int main(){
     initializeSet(&A);
     initializeSet(&B);
 
-    for(int ndx = 0; ndx < 3; ndx++){
-        insert(&A, 2 - ndx);
-        insert(&B, 3 - ndx);
+    for(int ndx = 0; ndx < 10; ndx++){
+        insert(&A, 10 - ndx);
+        insert(&B, 15 - ndx);
     }
 
     printf("SET: A\n");
@@ -52,6 +52,10 @@ int main(){
 
     C = IntersectionSorted(A, B);
     printf("Intersection: \n");
+    display(C);
+
+    C = DifferenceSorted(A, B);
+    printf("Difference: \n");
     display(C);
 
 
@@ -193,12 +197,16 @@ SET IntersectionSorted(SET A, SET B)
 // 2 3 4 
 // 1 
 
-SET Difference(SET A, SET B)
+SET DifferenceSorted(SET A, SET B)
 {
     SET C = {A.heap, -1};
     int* cPtr;
     for(cPtr = &C.head; A.head != -1 && B.head != -1; ){
         if(A.heap->elems[A.head].data < B.heap->elems[B.head].data){
+            int space = allocSpace(C.heap);
+            C.heap->elems[space].data = A.heap->elems[A.head].data;
+            *cPtr = space;
+            cPtr = &(C.heap->elems[*cPtr].next);
             A.head = A.heap->elems[A.head].next;
         }else{
             if(A.heap->elems[A.head].data == B.heap->elems[B.head].data){
