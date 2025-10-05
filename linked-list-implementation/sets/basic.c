@@ -107,38 +107,71 @@ SET UnionSorted(SET A, SET B){
     
 }
 
+
 SET IntersectionSorted(SET A, SET B){
     SET C = NULL, bPtr = NULL; 
     SET* ptr;
-    int lever = 0;
-    for(ptr = &C; A != NULL; A = A->next){
-        for(bPtr = B; bPtr != NULL && lever != 1; bPtr = bPtr->next){
-            if(A->data = B->data){
+    // int lever = 0;
+    for(ptr = &C; A != NULL && B != NULL;){
+        // for(bPtr = B; bPtr != NULL && lever != 1; bPtr = bPtr->next){
+        //     if(A->data == B->data){
+        //         *ptr = (SET)malloc(sizeof(struct node));
+        //         (*ptr)->data = A->data;
+        //         ptr = &(*ptr)->next;
+        //         lever = 1;
+        //     }
+        // }
+        if(A->data < B->data){
+            A = A->next;
+        }else{
+            if(A->data == B->data){
                 *ptr = (SET)malloc(sizeof(struct node));
                 (*ptr)->data = A->data;
                 ptr = &(*ptr)->next;
-                lever = 1;
+                A = A->next;
             }
+            B = B->next;
         }
     }
     *ptr = NULL;
     return C;
 }
 
-//inefficient as fuck
 SET DifferenceSorted(SET A, SET B){
-    SET C = NULL, bPtr;
+    SET C = NULL;
     SET* cPtr;
-    for(cPtr = &C; A != NULL; A = A->next){
-        for(bPtr = B; bPtr != NULL && bPtr->data != A->data; bPtr = bPtr->next){}
-        if(bPtr == NULL){
+    for(cPtr = &C; A != NULL && B != NULL;){
+        // for(bPtr = B; bPtr != NULL && bPtr->data != A->data; bPtr = bPtr->next){}
+        // if(bPtr == NULL){
+        //     *cPtr = (SET)malloc(sizeof(struct node));
+        //     if(*cPtr != NULL){
+        //         (*cPtr)->data = A->data;
+        //         cPtr = &(*cPtr)->next;
+        //     }
+        // }
+        if(A->data < B->data){
             *cPtr = (SET)malloc(sizeof(struct node));
             if(*cPtr != NULL){
                 (*cPtr)->data = A->data;
                 cPtr = &(*cPtr)->next;
             }
+            A = A->next;
+        }else{
+            if(A->data == B->data){
+                A = A->next;
+            }
+            B = B->next;
         }
     }
+
+    while(A != NULL){
+        *cPtr = (SET)malloc(sizeof(struct node));
+        if(*cPtr != NULL){
+            (*cPtr)->data = A->data;
+            cPtr = &(*cPtr)->next;
+        }
+    }
+
     *cPtr = NULL;
     return C;
 }
