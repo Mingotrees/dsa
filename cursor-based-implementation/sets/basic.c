@@ -27,6 +27,7 @@ SET UnionSorted(SET A, SET B);
 SET IntersectionSorted(SET A, SET B);
 SET DifferenceSorted(SET A, SET B);
 
+
 int main(){
     VHeap rad;
     initializeHeap(&rad);
@@ -35,10 +36,14 @@ int main(){
     initializeSet(&B);
 
     for(int ndx = 0; ndx < 10; ndx++){
-        insert(&A, 10 - ndx);
+        insert(&A, 20 - ndx);
         insert(&B, 15 - ndx);
     }
 
+    insert(&A, 10);
+    insert(&A, 9);
+
+    
     printf("SET: A\n");
     display(A);
 
@@ -124,7 +129,7 @@ void display(SET A)
     for(int ndx = A.head; ndx != -1; ndx = A.heap->elems[ndx].next){
         printf(" %d", A.heap->elems[ndx].data);
     }
-    printf(" }\n");
+    printf(" }\n\n");
 }
 
 
@@ -197,6 +202,7 @@ SET IntersectionSorted(SET A, SET B)
 // 2 3 4 
 // 1 
 
+//PROBLEM: WHEN SETS ARE UNEQUAL IN SIZE IMPLEMENTATION DOES NOT HANDLE IT
 SET DifferenceSorted(SET A, SET B)
 {
     SET C = {A.heap, -1};
@@ -210,15 +216,20 @@ SET DifferenceSorted(SET A, SET B)
             A.head = A.heap->elems[A.head].next;
         }else{
             if(A.heap->elems[A.head].data == B.heap->elems[B.head].data){
-                A.head = A.heap->elems[A.head].next;            
-            }else{
-                int space = allocSpace(C.heap);
-                C.heap->elems[space].data = A.heap->elems[A.head].data;
-                *cPtr = space;
-                cPtr = &(C.heap->elems[*cPtr].next);
+                A.head = A.heap->elems[A.head].next;        
             }
             B.head = B.heap->elems[B.head].next;
         }   
+    }
+
+    while (A.head != -1) {
+        int space = allocSpace(C.heap);
+        if (space != -1) {
+            C.heap->elems[space].data = A.heap->elems[A.head].data;
+            *cPtr = space;
+            cPtr = &(C.heap->elems[*cPtr].next);
+        }
+        A.head = A.heap->elems[A.head].next;
     }
 
     *cPtr = -1;
