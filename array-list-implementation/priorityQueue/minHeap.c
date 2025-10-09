@@ -169,6 +169,7 @@ int deleteMin(priQueue* A){
     return retVal;
 }
 
+//no recursion
 void heapifyRar(priQueue* A, int subRoot){
     /*
     * Step 1: Start with the non leaf node
