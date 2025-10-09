@@ -11,9 +11,12 @@ void insert(priQueue*, int x);
 int deleteMin(priQueue*);
 void heapSort(priQueue);
 void display(priQueue);
+void swap(int* a, int *b);
+void heapifyRar(priQueue* A, int subRoot);
+void heapifySubtree(priQueue *M, int subroot);
 
 int main(){
-    priQueue A = {.lastNdx = -1};
+    // priQueue A = {.lastNdx = -1};
     // for(int ndx = 0; ndx < MAX; ndx++){
     //     A.arr[ndx] = -1;
     // }
@@ -30,19 +33,32 @@ int main(){
     // A.arr[++A.lastNdx] = 18; //8
     // A.arr[++A.lastNdx] = 9; //9
 
-    insert(&A, 3);
-    insert(&A, 5);
-    insert(&A, 9);
-    insert(&A, 8);
-    insert(&A, 6);
-    insert(&A, 9);
-    insert(&A, 10);
-    insert(&A, 10);
-    insert(&A, 18);
-    insert(&A, 9);
-    display(A);
-    deleteMin(&A);
-    display(A);
+    // insert(&A, 3);
+    // insert(&A, 5);
+    // insert(&A, 9);
+    // insert(&A, 8);
+    // insert(&A, 6);
+    // insert(&A, 9);
+    // insert(&A, 10);
+    // insert(&A, 10);
+    // insert(&A, 18);
+    // insert(&A, 9);
+
+    // display(A);
+    // deleteMin(&A);
+    // display(A);
+    priQueue B = {{7,6,5,4,3,2,1}, 6};
+
+    for(int ndx = (B.lastNdx-1)/2; ndx >= 0; ndx--){
+        heapifyRar(&B, ndx);
+        // heapifySubtree(&B, ndx);
+    }
+
+    for(int ndx = 0; ndx <= B.lastNdx; ndx++){
+        printf("%d", B.arr[ndx]);
+    }
+    
+    // display(B);
     // insert(&A, 4);
 }
 
@@ -148,9 +164,67 @@ int deleteMin(priQueue* A){
 
         A->arr[parent] = lastLeaf;
     }
-    
 
 
     return retVal;
 }
 
+void heapifyRar(priQueue* A, int subRoot){
+    /*
+    * Step 1: Start with the non leaf node
+    * Step 2: Check the right and left child check which one is smaller (minHeap)
+    * Step 3: Swap the parent and that child
+    * Step 4: Move on to the next non-leaf node and repeat steps 1-3
+    * Optimized version by zeus elderifififeifem,fsemvlkafmkfvlma
+    */
+    int org = A->arr[subRoot];
+    int lc = subRoot * 2 + 1;
+    int rc = lc + 1;
+    int child = A->arr[lc] < A->arr[rc] ? lc : rc;
+    while(child <= A->lastNdx && A->arr[child] < org){
+        A->arr[subRoot] = A->arr[child];
+        subRoot = child;
+        lc = subRoot*2 + 1;
+        rc = lc + 1;
+        child = (rc >= A->lastNdx || A->arr[lc]) < A->arr[rc] ? lc : rc; //this is amazing it checks first if any of the 1st cond is true  and check second if true
+
+    }
+
+    A->arr[subRoot] = org;  
+}
+
+void swap(int* a, int *b){
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+//simon code
+
+// void heapifySubtree(priQueue *M, int subroot) {
+//     int smallest, left, right, done = 0;
+
+//     while(!done) {
+//         smallest = subroot;
+//         left = subroot * 2 + 1;
+//         right = left + 1;
+
+//         if(right <= M->lastNdx && M->arr[left] < M->arr[smallest]) {
+//             smallest = left;
+//         }
+
+//         if(right <= M->lastNdx && M->arr[right] < M->arr[smallest]) {
+//             smallest = right;
+//         }
+
+//         if(smallest == subroot) {
+//             done = 1;
+//         } else {
+//             int temp = M->arr[smallest];
+//             M->arr[smallest] = M->arr[subroot];
+//             M->arr[subroot] = temp;
+
+//             subroot = smallest;
+//         }
+//     }
+// }
