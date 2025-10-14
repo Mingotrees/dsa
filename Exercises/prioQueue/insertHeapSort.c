@@ -22,20 +22,6 @@ int main(){
     heapSort(&A);
 }
 
-// if(A->lastNdx + 1 < MAX){
-//         int hole = ++A->lastNdx;
-//         int parent = (hole-1)/2;
-//         while(hole > 0 && A->arr[parent] > x){
-//             A->arr[hole] = A->arr[parent];
-//             hole = parent;
-//             parent = (parent-1)/2;
-//         }
-
-//         A->arr[hole] = x;
-//     }else{
-//         printf("Full la");
-//     }
-
 void insertMinHeap(minHeap* a, int x){
     int insertPos = a->count++;
     int parent = (insertPos-1)/2;
@@ -107,5 +93,3 @@ void display(minHeap a){
     }
     printf("\n");
 }
-
-// 2 45 28 47 64 74 49 88 76 76
