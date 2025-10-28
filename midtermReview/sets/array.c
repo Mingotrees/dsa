@@ -28,11 +28,11 @@ int main(){
     insert(&A, 1);
     insert(&A, 7);
 
-    insert(&B, 2);
+    // insert(&B, 2);
     insert(&B, 3);
-    insert(&B, 6);
+    // insert(&B, 6);
     insert(&B, 9);
-    insert(&B, 10);
+    // insert(&B, 10);
 
     display(A, "SET A");
     display(B, "SET B");
@@ -42,6 +42,8 @@ int main(){
     display(C, "INTERSECTION OF SET A & B");
     C = DIFFERENCE(A, B);
     display(C, "DIFFERENCE OF SET A & B");
+
+    printf("B is %s", isSubset(A, B) ? "a subset of A" : "is not a subset of A");
 
 
 }
