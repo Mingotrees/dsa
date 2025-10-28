@@ -44,19 +44,19 @@ int main(){
 
     display(A, "SET A");
     display(B, "SET B");
-    SET C = UNION(A, B);
-    display(C, "UNION OF SET A & B");
-    freeList(&C);
-    C = INTERSECTION(A, B);
-    display(C, "INTERSECTION OF SET A & B");
-    freeList(&C);
-    C = DIFFERENCE(A, B);
-    display(C, "DIFFERENCE OF SET A & B");
+    // SET C = UNION(A, B);
+    // display(C, "UNION OF SET A & B");
+    // freeList(&C);
+    // C = INTERSECTION(A, B);
+    // display(C, "INTERSECTION OF SET A & B");
+    // freeList(&C);
+    // C = DIFFERENCE(A, B);
+    // display(C, "DIFFERENCE OF SET A & B");
 
     // printf("B is %s", isSubset(A, B) ? "a subset of A" : "is not a subset of A");
     freeList(&A);
     freeList(&B);
-    freeList(&C);
+    // freeList(&C);
 }
 
 void display(SET A, char* str){
