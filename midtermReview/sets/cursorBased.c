@@ -211,5 +211,6 @@ SET DIFFERENCE(SET A, SET B){
     return C;
 }
 
+//kapoy
 bool isMember(SET A, int x);
 
