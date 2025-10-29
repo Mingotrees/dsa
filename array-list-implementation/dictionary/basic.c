@@ -67,6 +67,7 @@ void display(Dictionary A){
 
 //(Actual - Hash(x) + 1 + MAX) % MAX?
 int getSearchLength(Dictionary A, int x, int index){
+    //(Actual location - hashVal + MAX) %MAX
     int len = ((index - hash(x)) + 1 + MAX) % MAX;
     return  len == 0 ?  MAX : len;
 }
@@ -97,8 +98,8 @@ void insert(Dictionary A, int x){
     int hashVal = hash(x), deletePos = -3; 
     // printf("%d", hashVal);
 //    int stop = (hashVal - 1 + MAX) % MAX; //possible problem might be the last element of the array will not be checked if so
-    int stop = 0; // instead of storing positions just based it on search length
-    for(;stop != MAX && A[hashVal] != EMPTY; hashVal = (hashVal + 1) % MAX, ++stop){
+    int stop = 1; // instead of storing positions just based it on search length
+    for(;stop != MAX && A[hashVal] != EMPTY; hashVal = (hashVal + 1) % MAX, stop++){
         if(deletePos == -3 && A[hashVal] == DELETED){
             deletePos = hashVal;
         }

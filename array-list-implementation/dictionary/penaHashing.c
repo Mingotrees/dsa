@@ -95,6 +95,7 @@ void insert(Dictionary* A, int value){
     *         1.2.1 save the link of the one occupying the actual hash position
     *         1.2.2 insert the data to the new allocated space, as well as the link that we saved from the original placement
     *         1.2.3 update the link of the original placement to the index given by the alloc
+    *       FUCKKK WA NAKO NA HANDLE KUNG PUNO NA ANG SYNOYNM NIYA NAA PAY DELETED SA PRIME AREA
     * */
     printf("Inserting element %d....\n", value);
     int hashVal = hash(value), space = -9999;
