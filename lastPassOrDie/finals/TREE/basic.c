@@ -5,6 +5,7 @@ typedef struct node{
     int data;
     struct node* left;
     struct node* right;
+    char marked;
 }*Tree;
 
 typedef struct{
@@ -17,6 +18,7 @@ void freeNodes(Tree* root) {
 
     freeNodes(&(*root)->left);
     freeNodes(&(*root)->right);
+    
 
     free(*root);
     *root = NULL; 
@@ -29,6 +31,7 @@ void insert(Tree* head, int x){
         (*head)->data = x;
         (*head)->left = NULL;
         (*head)->right = NULL;
+        (*head)->marked = 'f';
     }else if(x <= (*head)->data){
         insert(&(*head)->left, x);
     }else{
@@ -42,37 +45,53 @@ void push(Stack* yes, Tree child){
     }
 }
 
-int top(Stack yes){
-    return yes.arr[yes.top]->data;
+Tree top(Stack yes){
+    Tree retVal = NULL;
+    if(yes.top != -1){
+        retVal = yes.arr[yes.top]; 
+    }
+    return retVal;
 }
 
 Tree pop(Stack* yes){
-    return yes->arr[yes->top--];
+    Tree temp = yes->arr[yes->top--];
+    return temp != NULL ? temp : NULL;
 }
 
 //my idea for iteratively traversing this through pre-order is store the right children in the stack
 void preOrderTrav(Tree head){
-    Stack rightChildren = {{NULL}, -1};
-    Tree temp = head;
-    while(temp != NULL){
+    // Stack rightChildren = {{NULL}, -1};
+    // Tree temp = head;
+    // while(temp != NULL){
+    //     printf("%d ", temp->data);
+    //     if(temp->right != NULL){
+    //         push(&rightChildren, temp->right);
+    //     }
+
+    //     temp = temp->left;
+    // }
+    // //after storing it go through the stack
+    // while(rightChildren.top != -1){
+    //     temp = pop(&rightChildren);
+    //     while(temp != NULL){
+    //         printf("%d ", temp->data);
+    //         if(temp->right != NULL){
+    //             push(&rightChildren, temp->right);
+    //         }
+
+    //         temp = temp->left;
+    //     }
+    // }
+
+    //internet ver
+    Stack children = {{NULL}, -1};
+    Tree temp;
+    push(&children, head);
+    while(children.top != -1){
+        temp = pop(&children);
         printf("%d ", temp->data);
-        if(temp->right != NULL){
-            push(&rightChildren, temp->right);
-        }
-
-        temp = temp->left;
-    }
-    //after storing it go through the stack
-    while(rightChildren.top != -1){
-        temp = pop(&rightChildren);
-        while(temp != NULL){
-            printf("%d ", temp->data);
-            if(temp->right != NULL){
-                push(&rightChildren, temp->right);
-            }
-
-            temp = temp->left;
-        }
+        if(temp->right != NULL) push(&children, temp->right);
+        if(temp->left != NULL) push(&children, temp->left);
     }
 
 }
@@ -80,28 +99,125 @@ void preOrderTrav(Tree head){
 
 //recursively(no pun intended cause this is iterative) reach for the farthest left node and then process the right nodes
 void inOrderTrav(Tree head){
-    Stack children = {{NULL}, -1};
-    Tree temp = head, trav;
-    while(temp != NULL){
-        push(&children, temp);
-        temp = temp->left;
-    }
+    //ver 1
+    // Stack children = {{NULL}, -1};
+    // Tree temp = head, trav;
+    // while(temp != NULL){
+    //     push(&children, temp);
+    //     temp = temp->left;
+    // }
 
-    while(children.top != -1){
-        temp = pop(&children);
-        if(temp->right != NULL){
-            push(&children, temp->right);
-            trav = temp->right->left;
-            while(trav != NULL){
-                push(&children, trav);
-                trav = trav->left;
-            }
+    // while(children.top != -1){
+    //     temp = pop(&children);
+    //     if(temp->right != NULL){
+    //         push(&children, temp->right);
+    //         trav = temp->right->left;
+    //         while(trav != NULL){
+    //             push(&children, trav);
+    //             trav = trav->left;
+    //         }
+    //     }
+
+    //     printf("%d ", temp->data);
+    // }
+
+    // internet ver
+    Stack children = {{NULL}, -1};
+    Tree temp = head;
+    while(temp != NULL || children.top != -1){
+        while(temp != NULL){
+            push(&children , temp);
+            temp = temp->left;
         }
 
+        temp = pop(&children);
         printf("%d ", temp->data);
+        temp = temp->right;
     }
 
 }
+
+//one stack method with extra member in struct
+// void postOrderTrav(Tree head){
+//     Stack children = {{NULL}, -1};
+//     Tree temp = head, trav;
+//     while(temp != NULL){
+//         push(&children, temp);
+//         temp = temp->left;
+//     }
+
+//     while(children.top != -1){
+//         temp = top(children);
+//         if(temp->right != NULL && temp->marked == 'f'){
+//             temp->marked = 't';
+//             push(&children, temp->right);
+//             trav = temp->right->left;
+//             while(trav != NULL){
+//                 push(&children, trav);
+//                 trav = trav->left;
+//             }
+//         }else{
+//             temp = pop(&children);
+//             printf("%d ", temp->data);
+//         }
+
+//     }
+
+// }
+
+//two stack method
+void postOrderTrav(Tree head){
+    //this shit never workes for trees that aren't binary search trees;
+    // Stack children = {{NULL}, -1};
+    // Stack rightChildren = {{NULL}, -1};
+    // Tree temp = head, trav, xav = NULL;
+    // while(temp != NULL){
+    //     push(&children, temp);
+    //     temp = temp->left;
+    // }
+
+    // while(children.top != -1){
+    //     temp = pop(&children);
+    //     if(temp->right != NULL){
+    //         push(&rightChildren, temp);
+    //         push(&children, temp->right);
+    //         trav = temp->right->left;
+    //         while(trav != NULL){
+    //             push(&children, trav);
+    //             trav = trav->left;
+    //         }
+    //     }else{
+    //         printf("%d ", temp->data);
+    //         trav = top(rightChildren);
+    //         if(trav != NULL && trav->right == temp){
+    //             while(rightChildren.top != -1 && trav->right->data == temp->data){
+    //                 trav = pop(&rightChildren);
+    //                 printf("%d ", trav->data);
+    //                 temp = trav;
+    //             }
+    //         }
+                        
+    //     }
+
+    // }
+    //internet version  
+    if (head == NULL) return;
+    Stack s1 = {{NULL}, -1}, s2 = {{NULL}, -1};
+
+    push(&s1, head);
+    while (s1.top != -1) {
+        Tree node = pop(&s1);
+        push(&s2, node);
+        if (node->left != NULL) push(&s1, node->left);
+        if (node->right != NULL) push(&s1, node->right);
+    }
+
+    while (s2.top != -1) {
+        printf("%d ", pop(&s2)->data);
+    }
+  
+}
+
 
 
 int main(){
@@ -114,9 +230,12 @@ int main(){
     insert(&root, 17);
     insert(&root, 25);
     insert(&root, 11);
+    insert(&root, 26);
+    insert(&root, 27);
 
-    // preOrderTrav(root);
-    inOrderTrav(root);
+    preOrderTrav(root);
+    // inOrderTrav(root);
+    // postOrderTrav(root);
     
     freeNodes(&root);
 }
