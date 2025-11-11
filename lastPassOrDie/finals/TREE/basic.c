@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#define QUEUE_MAX 20
 
 typedef struct node{
     int data;
@@ -12,6 +13,12 @@ typedef struct{
     Tree arr[10];
     int top;
 }Stack;
+
+typedef struct{
+    Tree arr[QUEUE_MAX];
+    int front;
+    int rear;
+}Queue;
 
 void freeNodes(Tree* root) {
     if (*root == NULL) return;
@@ -219,6 +226,49 @@ void postOrderTrav(Tree head){
 }
 
 
+void enqueue(Queue* A, Tree element){
+    if((A->rear + 2)% QUEUE_MAX != A->front){
+        A->rear = (A->rear + 1) % QUEUE_MAX;
+        A->arr[A->rear] = element;
+    }
+}
+
+Tree dequeue(Queue* A){
+    Tree retVal = NULL;
+    if((A->rear + 1) % QUEUE_MAX != A->front){
+        retVal = A->arr[A->front];
+        A->front = (A->front + 1) % QUEUE_MAX;
+    }
+    return retVal;
+}
+
+
+void levelOrderTrav(Tree head){
+    Queue anatoly = {{NULL}, 1, 0};
+    enqueue(&anatoly, head);
+    int level = 0;
+    Tree trav;
+    while((anatoly.rear + 1) % QUEUE_MAX != anatoly.front){
+        printf("Level %d: ", level++);
+        int stopper = (anatoly.rear + 1) % QUEUE_MAX;
+        while(anatoly.front != stopper){
+            trav = dequeue(&anatoly);
+            printf("%d ", trav->data);
+
+            if(trav->left != NULL){
+                enqueue(&anatoly, trav->left);
+            }
+
+            if(trav->right != NULL){
+                enqueue(&anatoly, trav->right);
+            }
+        }
+        printf("\n");
+    }
+
+}
+
+
 
 int main(){
     Tree root = NULL;
@@ -233,9 +283,11 @@ int main(){
     insert(&root, 26);
     insert(&root, 27);
 
-    preOrderTrav(root);
+    // preOrderTrav(root);
     // inOrderTrav(root);
     // postOrderTrav(root);
+    levelOrderTrav(root);
+    printf("%d", 1<<1);
     
     freeNodes(&root);
 }

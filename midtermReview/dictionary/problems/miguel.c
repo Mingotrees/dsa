@@ -30,52 +30,7 @@ Student* reportToTeacher(ClassList A, char block, int* count);
 Student* askYza(ClassList A);
 Student* messageFromMiss(ClassList A);
 void display(Student* paidList, int count, char block);
-// void displayDict(ClassList A){
-//     printf("\n================ STUDENT LIST ================\n");
-//     for(int c = 0; c < MAX_CLASS; c++){
-//         char block = 'A' + c;
-//         printf("\n--- BLOCK %c ---\n", block);
-//         bool hasStudents = false;
-
-//         for(int i = 0; i < MAX_STUD; i++){
-//             Student s = A[c].students[i];
-//             if(s.key != EMPTY && s.key != DELETED){
-//                 printf("%-10s | %-5s | Paid: %s\n",
-//                        s.lName,
-//                        (s.block == block) ? "OK" : "?",
-//                        s.paid ? "Yes" : "No");
-//                 hasStudents = true;
-//             }
-//         }
-
-//         if(!hasStudents){
-//             printf("[No students in this block]\n");
-//         }
-//     }
-//     printf("==============================================\n");
-// }
-
-// void displayClassList(ClassList A) {
-//     printf("\n=================== HASH TABLE CONTENTS ===================\n");
-//     for (int classIdx = 0; classIdx < MAX_CLASS; classIdx++) {
-//         printf("\n>>> BLOCK %c <<<\n", 'A' + classIdx);
-//         printf("Idx | Key |   Last Name   | Paid\n");
-//         printf("------------------------------------\n");
-//         for (int studIdx = 0; studIdx < MAX_STUD; studIdx++) {
-//             Student s = A[classIdx].students[studIdx];
-//             if (s.key == EMPTY) {
-//                 printf("%3d |  %c  | %-13s | %s\n", studIdx, s.key, "(EMPTY)", "-");
-//             } else if (s.key == DELETED) {
-//                 printf("%3d |  %c  | %-13s | %s\n", studIdx, s.key, "(DELETED)", "-");
-//             } else {
-//                 printf("%3d |  %c  | %-13s | %s\n",
-//                        studIdx, s.key, s.lName,
-//                        s.paid ? "Yes" : "No");
-//             }
-//         }
-//     }
-//     printf("===========================================================\n");
-// }
+void displayClassList(ClassList A);
 
 int main(){
     Student arr[39] = {
@@ -292,6 +247,28 @@ void removeWithdrawnStudents(ClassList A){
     free(withdrawn);
 }
 
+//helper function use this to see ur table T_T
+void displayClassList(ClassList A) {
+    printf("\n=================== HASH TABLE CONTENTS ===================\n");
+    for (int classIdx = 0; classIdx < MAX_CLASS; classIdx++) {
+        printf("\n>>> BLOCK %c <<<\n", 'A' + classIdx);
+        printf("Idx | Key |   Last Name   | Paid\n");
+        printf("------------------------------------\n");
+        for (int studIdx = 0; studIdx < MAX_STUD; studIdx++) {
+            Student s = A[classIdx].students[studIdx];
+            if (s.key == EMPTY) {
+                printf("%3d |  %c  | %-13s | %s\n", studIdx, s.key, "(EMPTY)", "-");
+            } else if (s.key == DELETED) {
+                printf("%3d |  %c  | %-13s | %s\n", studIdx, s.key, "(DELETED)", "-");
+            } else {
+                printf("%3d |  %c  | %-13s | %s\n",
+                       studIdx, s.key, s.lName,
+                       s.paid ? "Yes" : "No");
+            }
+        }
+    }
+    printf("===========================================================\n");
+}
 
 //TO DO
 void updateStudentsWhoPaid(ClassList A){

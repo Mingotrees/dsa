@@ -155,7 +155,6 @@ int deleteMin(priQueue* A){
         int child = A->arr[lc] > A->arr[rc] ? rc : lc;
         while(child <= A->lastNdx && A->arr[child] < lastLeaf){
             A->arr[parent] = A->arr[child];
-
             parent = child;
             lc = parent * 2 + 1;
             rc = lc + 1;
@@ -178,6 +177,7 @@ void heapifyRar(priQueue* A, int subRoot){
     * Step 4: Move on to the next non-leaf node and repeat steps 1-3
     * Optimized version by zeus elderifififeifem,fsemvlkafmkfvlma
     */
+   //something is so wrong with this one bro :(
     int org = A->arr[subRoot];
     int lc = subRoot * 2 + 1;
     int rc = lc + 1;
@@ -222,10 +222,10 @@ void swap(int* a, int *b){
 //             done = 1;
 //         } else {
 //             int temp = M->arr[smallest];
-//             M->arr[smallest] = M->arr[subroot];
-//             M->arr[subroot] = temp;
+    //             M->arr[smallest] = M->arr[subroot];
+    //             M->arr[subroot] = temp;
 
-//             subroot = smallest;
-//         }
+    //             subroot = smallest;
+    //         }
 //     }
 // }
