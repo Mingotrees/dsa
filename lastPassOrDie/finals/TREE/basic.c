@@ -287,7 +287,13 @@ int main(){
     // inOrderTrav(root);
     // postOrderTrav(root);
     levelOrderTrav(root);
-    printf("%d", 1<<1);
+    // printf("%d", 1<<1);
+    int** arr = (int**)malloc(sizeof(int*)*10);
     
+    int dab[2] = {0,1};
+    arr[0] = dab;
+    printf("%d", arr[0][0]);
+
+    free(arr);
     freeNodes(&root);
 }

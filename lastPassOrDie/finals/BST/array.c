@@ -1,7 +1,7 @@
 #include <stdio.h>
 #define MAX 6
 
-//my attempt
+//my attempt, in progress
 
 typedef struct{
     int arr[MAX];
