@@ -121,7 +121,53 @@ void insert(Tree* root, int data){
     int balanceFactor = skew(*root);
     if(balanceFactor > 1 || balanceFactor < -1){
         int childBalance = balanceFactor > 1 ? skew((*root)->left) : skew((*root)->right);
-        if(childBalance )
+        //case left left heavy -> therefore, right rotate it once
+        Tree temp = *root;
+        Tree childNode;
+
+        if(childBalance >= 0 && balanceFactor > 1){
+            childNode = temp->left;
+            temp->left = childNode->right;
+            childNode->right = temp;
+        }else if(childBalance <= 0 && balanceFactor < -1){ //left rotate
+            childNode = temp->right;
+            temp->right = childNode->left;               
+            childNode->left = temp;
+        }else{ //hard case
+            //LR CASE ROOT IS LEFT HEAVY BUT CHILD IS RIGHT HEAVY
+            //do left and then right rotate
+            Tree extra;
+            if(balanceFactor > 1 && childBalance < 0){
+                extra = temp->left;
+                childNode = temp->left->right;
+
+                //left rotate
+                extra->right = childNode->left;
+                childNode->left = extra;
+
+                //right rotate
+                temp->left = childNode->right;
+                childNode->right = temp;
+            }else{
+                extra = temp->right;
+                childNode = temp->right->left;
+                
+                //right rotate
+                extra->left = childNode->right;
+                childNode->right = extra;
+                
+                //left rotate
+                temp->right = childNode->left;
+                childNode->left = temp;
+
+            }
+            extra->height = 1 + max(height(temp->left), height(temp->right));
+        }
+        
+
+        *root = childNode;
+        temp->height = 1 + max(height(temp->left), height(temp->right));
+        childNode->height = 1 + max(height(childNode->left), height(childNode->right));
     }
 
 }
@@ -132,8 +178,10 @@ int main(){
     insert(&head, 15);
     insert(&head, 10);
     insert(&head, 20);
-    insert(&head, 8);
-    insert(&head, 12);
+    insert(&head, 17);
+    insert(&head, 30);
+    insert(&head, 16);
+    insert(&head, 18);
 
     levelOrderTrav(head);
     freeNodes(&head);
