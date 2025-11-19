@@ -26,6 +26,9 @@ int main(){
 
     heapify(&origin);
     display(origin);
+    printf("\n");
+    heapSort(&origin);
+    display(origin);
 }
 
 
@@ -56,37 +59,59 @@ void insert(PrioQueue* root, int x){
 // 1. recursive
 // 2. iterative
 void subHeapify(PrioQueue* queue, int root){
-    int big, flag = 0;
+    int big = root;
     int lc = root*2 + 1;
     int rc = lc + 1;
-    while(root < queue->count && flag != 1){
-        big = root;
-        if(lc <= queue->count && queue->data[lc] > queue->data[big]){
-            big = lc;
-        }
-        
-        if(rc <= queue->count && queue->data[rc] > queue->data[big]){
-            big = rc;
-        }
+    
+    //recursive
+    if(lc <= queue->count && queue->data[lc] > queue->data[big]){
+        big = lc;
+    } 
 
-        if(big != root){
-            //swap
-            int temp = queue->data[root];
-            queue->data[root] = queue->data[big];
-            queue->data[big] = temp;
-            root = big; 
-            lc = root*2 + 1;
-            rc = lc + 1;
-        }else{
-            flag = 1;
-        }
-    }       
+
+    if(rc <= queue->count && queue->data[rc] > queue->data[big]){
+        big = rc;
+    }
+
+    if(big == root){
+        return;
+    }else{
+        int temp = queue->data[root];
+        queue->data[root] = queue->data[big];
+        queue->data[big] = temp;
+        subHeapify(queue, big);
+    }
+
+    //iterative
+    // while(root < queue->count && flag != 1){
+    //     big = root;
+    //     if(lc <= queue->count && queue->data[lc] > queue->data[big]){
+    //         big = lc;
+    //     }
+        
+    //     if(rc <= queue->count && queue->data[rc] > queue->data[big]){
+    //         big = rc;
+    //     }
+
+    //     if(big != root){
+    //         //swap
+    //         int temp = queue->data[root];
+    //         queue->data[root] = queue->data[big];
+    //         queue->data[big] = temp;
+    //         root = big; 
+    //         lc = root*2 + 1;
+    //         rc = lc + 1;
+    //     }else{
+    //         flag = 1;
+    //     }
+    // }       
 }
 
 void heapify(PrioQueue* queue){
     int parent = queue->count/2 - 1;
     while(parent >= 0){
         subHeapify(queue, parent);
+        parent--;
     }
 }
 
