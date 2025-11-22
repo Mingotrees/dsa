@@ -94,6 +94,7 @@ void delete(Tree* root, int x){
     */
     if(*ptr != NULL){
         Tree temp = *ptr;
+        //this solution is finding the maximum of the left subtree
         if(temp->right != NULL && temp->left != NULL){
             Tree *trav;
             for(trav = &(*ptr)->right; *trav != NULL && (*trav)->left != NULL; trav = &(*trav)->left){}
