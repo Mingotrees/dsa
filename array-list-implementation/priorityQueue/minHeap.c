@@ -187,7 +187,7 @@ void heapifyRar(priQueue* A, int subRoot){
         subRoot = child;
         lc = subRoot*2 + 1;
         rc = lc + 1;
-        child = (rc >= A->lastNdx || A->arr[lc]) < A->arr[rc] ? lc : rc; //this is amazing it checks first if any of the 1st cond is true  and check second if true
+        child = (rc >= A->lastNdx || A->arr[lc]) < A->arr[rc] ? lc : rc; //this is amazing it checks first if any of the 1st cond is true  and check second if true but iz broken
 
     }
 

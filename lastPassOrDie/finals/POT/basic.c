@@ -35,22 +35,22 @@ int main(){
 //There are two methods in inserting for priorityQueues to maintain POT property
 // 1. InsertLast and bubble it if its parent is less than that element
 // 2. Normal insert and then do heapify heapifying subTree starting from the last non-leaf element
-// we can calculate the lastLeaf node using the formula lastParent = (count/2) - 1 this if the element is count
+// we can calculate the lastLeaf node using the formula lastParent = (count/2) - 1 this if the element is count not lastNDX
 void insert(PrioQueue* root, int x){
  
     if(root->count < MAX){
         //1st way 
         //pigeon hole
-        // int hole = root->count++;
-        // int parent = hole / 2 - 1;
-        // while(parent >= 0 && root->data[parent] < x){
-        //     root->data[hole] = root->data[parent];
-        //     hole = parent;
-        //     parent = hole / 2 -1;
-        // } 
-        // root->data[hole] = x;
+        int hole = root->count++;
+        int parent = hole / 2 - 1;
+        while(parent >= 0 && root->data[parent] < x){
+            root->data[hole] = root->data[parent];
+            hole = parent;
+            parent = hole / 2 - 1;
+        } 
+        root->data[hole] = x;
         //2nd way
-        root->data[root->count++] = x;
+        // root->data[root->count++] = x;
     }
 }
 
