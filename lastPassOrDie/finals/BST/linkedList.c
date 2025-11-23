@@ -12,7 +12,7 @@ void insert(Tree* root, int x);
 void insertRecur(Tree* root, int x);
 void freeNodes(Tree* root);
 void delete(Tree* root, int x);
-Tree deleteRecur(Tree* root, int x);
+void deleteRecur(Tree* root, int x);
 
 
 int main(){
@@ -24,9 +24,10 @@ int main(){
     insertRecur(&root, 12);
     insertRecur(&root, 17);
     insertRecur(&root, 25);
+    insertRecur(&root, 18);
     display(root);
     printf("\n");
-    delete(&root, 15);
+    deleteRecur(&root, 15);
     display(root);  
 }
 
@@ -109,10 +110,35 @@ void delete(Tree* root, int x){
     }
 }
 
-// void deleteRecur(Tree* root, int x){
-//     traverse
-//     if()
-// }
+
+void deleteRecur(Tree* root, int x){
+    // traverse
+    if(*root == NULL){
+        printf("not found");
+        return;
+    }
+
+    if((*root)->data == x){
+        //case 3
+        Tree temp = *root;
+        if((*root)->left != NULL && (*root)->right != NULL){
+            Tree *trav;
+            for(trav = &(*root)->right; *trav != NULL && (*trav)->left != NULL; trav = &(*trav)->left){}
+            temp->data = (*trav)->data; 
+            temp = *trav;
+            *trav = temp->right;    
+        }else{
+            *root = (*root)->right == NULL ? (*root)->right : (*root)->left;
+        }
+
+    }else{
+        if(x < (*root)->data) deleteRecur(&(*root)->left, x);
+        if(x > (*root)->data) deleteRecur(&(*root)->right, x);
+    }
+
+}
+
+
 
 
 
