@@ -127,7 +127,7 @@ void deleteRecur(Tree* root, int x){
             temp->data = (*trav)->data; 
             temp = *trav;
             *trav = temp->right;    
-        }else{
+        }else{//case 1 and 2
             *root = (*root)->right == NULL ? (*root)->right : (*root)->left;
         }
 

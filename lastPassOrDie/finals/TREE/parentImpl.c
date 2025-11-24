@@ -30,6 +30,7 @@ Tree* create();
 
 void preOrderDisplay(Node n, Tree main);
 void postOrderDisplay(Node n, Tree main);
+void inOrderDisplay(Node N, Tree T);
 
 //apparently this doesnt exist for general tree
 //because in order is supposed to only have two
@@ -130,5 +131,19 @@ void postOrderRecur(Node n, Tree main){
         postOrderRecur(c, main);
         printf("%d ", label(c, main));
         c = right_sibling(c, main);
+    }
+}
+
+void inOrderDisplay(Node N, Tree T)
+{
+    Node child;
+    if (leftmost_child(N, T) == -2) {
+        printf("%d ", N);
+    } else {
+        inOrderDisplay(leftmost_child(N, T), T);
+        printf("%d ", N);
+        for (child = right_sibling(leftmost_child(N, T), T); child != -2; child = right_sibling(child, T)) {
+            inOrderDisplay(child, T);
+        }
     }
 }
