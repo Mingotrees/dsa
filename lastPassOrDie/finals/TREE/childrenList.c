@@ -27,12 +27,14 @@ int main(){
     return 0;
 }
 
-void insertLast()
+void insertLast(){
+
+}
 
 Tree CREATE(){
     Tree temp = {{NULL}, 0};
     List* ptr = &(temp.t);
-
+    return temp;
 }
 
 void MAKENULL(Tree* T){
@@ -54,7 +56,7 @@ int PARENT(int N, Tree T){
         while(temp != NULL && temp->data != N){}
         if(temp != NULL){
             break;
-        }
+        }   
     }
 
     return temp == NULL ? -2 : ndx;
@@ -101,9 +103,30 @@ void PREORDER(int N, Tree T){
 }
 
 void INORDER(int N, Tree T){
-
+    int c = LEFTMOST_CHILD(N, T); 
+    if(c == -2){
+        printf("%d, c");
+    }else{
+        INORDER(c, T);
+        int child;
+        for(child = RIGHT_SIBLING(c, T); child != -2 ; child = RIGHT_SIBLING(child, T)){
+            INORDER(child, T);
+        } 
+    }
 }
 
-void POSTORDER(int N, Tree T){
 
+void POSTORDER(int N, Tree T){
+    POSTORDERRECUR(N, T);
+    printf("%d ", N);
+}
+
+void POSTORDERRECUR(int N, Tree T){
+    int c;
+    c = leftmost_child(N, T);
+    while(c != -2){
+        postOrderRecur(c, T);
+        printf("%d ", label(c, T));
+        c = right_sibling(c, T);
+    }
 }
