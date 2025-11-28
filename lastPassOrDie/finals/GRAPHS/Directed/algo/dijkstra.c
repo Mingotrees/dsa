@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #define SIZE 5
 #define NOPATH 999
-#define VERTEX 0
 
 typedef int Graph[SIZE][SIZE];
 typedef int SET[SIZE];
@@ -17,7 +16,7 @@ typedef int SET[SIZE];
 //4. Choose D[i] which has minimum distance in V-S in the matrix
 //5. Add i into set S
 //6. For each vertex that is not in V calculate the minimum distance and assign it to the shortest Path table D[v] = min(D[v], C[w][v])
-void dijkstra(Graph G, SET V, SET S, SET D);
+void dijkstra(Graph G, SET V, SET D, int source);
 void build(Graph m);
 int findMin(SET D, SET S, SET V);
 int min(int x, int y);
@@ -29,11 +28,10 @@ int main(){
     SET V = {1, 1, 1, 1, 1};
     //traversed set tracker
     //I choose to find the shortest path from vertex 2 to anywhere ong
-    SET S = {1,0,0,0,0};
 
     //shortest paths
     SET D = {0};
-    dijkstra(G, V, S, D);
+    dijkstra(G, V, D, 2);
     for(int ndx = 0; ndx < SIZE; ndx++){
         printf("%d ", D[ndx]);
     }
@@ -48,10 +46,12 @@ void build(Graph m){
     }
 }
 
-void dijkstra(Graph G, SET V, SET S, SET D){
+void dijkstra(Graph G, SET V, SET D, int source){
+    SET S = {0};
+    
     //distances
     for(int ndx = 0; ndx < SIZE; ndx++){
-        D[ndx] = G[VERTEX][ndx];
+        D[ndx] = G[source][ndx];
     }
 
     for(int ndx = 1; ndx < SIZE; ndx++){
