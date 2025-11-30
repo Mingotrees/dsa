@@ -62,7 +62,7 @@ void dijkstra(Graph G, SET V, SET D, int source){
                 D[idx] = min(D[idx], D[w] + G[w][idx]);
             }
         }
-    }
+    } 
 }
 
 int findMin(SET D, SET S, SET V){
