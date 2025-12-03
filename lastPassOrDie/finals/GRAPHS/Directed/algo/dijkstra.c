@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #define SIZE 5
 #define NOPATH 999
 
@@ -30,7 +31,7 @@ int main(){
     //I choose to find the shortest path from vertex 2 to anywhere ong
 
     //shortest paths
-    SET D = {0};
+    SET D = {2};
     dijkstra(G, V, D, 2);
     for(int ndx = 0; ndx < SIZE; ndx++){
         printf("%d ", D[ndx]);
@@ -38,7 +39,12 @@ int main(){
 }
 
 void build(Graph m){
-    Graph a = {{0, 10, NOPATH, 30, 100},{NOPATH, 0, 50, NOPATH, NOPATH},{20, NOPATH, 0, NOPATH, 10},{NOPATH, NOPATH, 20, 0, 60},{NOPATH, NOPATH, NOPATH, NOPATH,0}};
+    Graph a = {{0, 10, NOPATH, 30, 100},
+                {NOPATH, 0, 50, NOPATH, NOPATH},
+                {20, NOPATH, 0, NOPATH, 10},
+                {NOPATH, NOPATH, 20, 0, 60},
+                {NOPATH, NOPATH, NOPATH, NOPATH,0}
+            };
     for(int ndx = 0; ndx < SIZE; ndx++){
         for(int idx = 0; idx < SIZE; idx++){
             m[ndx][idx] = a[ndx][idx];
@@ -50,9 +56,10 @@ void dijkstra(Graph G, SET V, SET D, int source){
     SET S = {0};
     
     //distances
-    for(int ndx = 0; ndx < SIZE; ndx++){
-        D[ndx] = G[source][ndx];
-    }
+    memcpy(D, G[source], sizeof(int)*5);
+    // for(int ndx = 0; ndx < SIZE; ndx++){
+    //     D[ndx] = G[source][ndx];
+    // }
 
     for(int ndx = 1; ndx < SIZE; ndx++){
         int w = findMin(D, S, V);
