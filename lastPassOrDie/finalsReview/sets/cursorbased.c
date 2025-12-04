@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-#define MAX 20
+#define MAX 30
 
 typedef struct{
     int data;
@@ -46,13 +46,13 @@ int main(){
     Set C = Union(A, B);
     display(C, "UNION OF A & B");
 
-    // C = Intersection(A, B);
-    // display(C, "INTERSECTION OF A & B");
+    C = Intersection(A, B);
+    display(C, "INTERSECTION OF A & B");
 
-    // C = Difference(A, B);
-    // display(C, "DIFFERENCE OF A & B");
+    C = Difference(A, B);
+    display(C, "DIFFERENCE OF A & B");
 
-    // printf("%s", is_member(C, 9) == true ? "Member" : "Not Member");
+    printf("%s", is_member(C, 7) == true ? "Member" : "Not Member");
 }
 
 int alloc(Vheap* A){
@@ -104,11 +104,31 @@ Set Union(Set A, Set B){
 }
 
 Set Intersection(Set A, Set B){
+    Set C = {A.mem, -1};
+    int ndx;
+    for(ndx = A.root; ndx != -1; ndx = A.mem->arr[ndx].next){
+        int idx;
+        for(idx = B.root; idx != -1 && A.mem->arr[idx].data != A.mem->arr[ndx].data; idx = B.mem->arr[idx].next){}
+        if(idx != -1){
+            insert(&C, A.mem->arr[ndx].data);
+        }
+    }
 
+    return C;
 }
 
 Set Difference(Set A, Set B){
+    Set C = {A.mem, -1};
+    int ndx;
+    for(ndx = A.root; ndx != -1; ndx = A.mem->arr[ndx].next){
+        int idx;
+        for(idx = B.root; idx != -1 && A.mem->arr[idx].data != A.mem->arr[ndx].data; idx = B.mem->arr[idx].next){}
+        if(idx == -1){
+            insert(&C, A.mem->arr[ndx].data);
+        }
+    }
 
+    return C;
 }
 
 //only applicable for the very first set
