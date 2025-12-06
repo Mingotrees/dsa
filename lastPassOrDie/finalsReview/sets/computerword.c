@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #define MAX 8
 
-typedef char Set;
+typedef unsigned char Set;
 
 void insert(Set*, int);
 void delete(Set*, int);
@@ -79,6 +79,12 @@ void display(Set A, char message[]){
         if((1u << ndx & A) > 0){
             printf("%d ", ndx);
         }
+    }
+    printf("\n");
+
+    Set mask;
+    for(mask = 1 << sizeof(Set)*8-1; mask > 0; mask >>= 1){
+        printf("%d ", mask & A > 0 ? 1 : 0);
     }
     printf("\n");
 }
