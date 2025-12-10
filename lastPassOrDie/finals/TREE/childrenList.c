@@ -115,7 +115,6 @@ void INORDER(int N, Tree T){
     }
 }
 
-
 void POSTORDER(int N, Tree T){
     POSTORDERRECUR(N, T);
     printf("%d ", N);
