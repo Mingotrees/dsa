@@ -82,40 +82,4 @@ bool isFull(Queue B){
     return false;
 }
 
-void enqueueSorted()
 
-void printQueue(Queue* B){
-    if(!isEmpty(*B)){
-        // version 1
-        // inefficient
-        // int temp = B->beginning->data;
-        // printf("%d\n", temp);
-        // dequeue(B);
-        // enqueue(B, temp);
-        // for(;B->beginning->data != temp;){
-        //     int hold = B->beginning->data;
-        //     printf("%d\n", hold);
-        //     dequeue(B);
-        //     enqueue(B, hold);
-        // }
-
-        
-        //version 2
-
-        int temp = front(*B);
-        // problem of this implementation is what if naay duplicate
-        do{
-            int hold = front(*B);
-            printf("%d\n", hold);
-            dequeue(B);
-            enqueue(B, hold);
-        }while(front(*B) != temp);
-
-        printf("\n");
-
-        //version 
-        //try new version of enqueueing and dequeueing(?)
-    }else{
-        printf("Queue Empty");
-    }
-}
